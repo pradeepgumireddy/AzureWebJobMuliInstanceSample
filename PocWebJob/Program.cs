@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System.IO;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PocWebJob.ConfigSettings;
 
 namespace PocWebJob
 {
@@ -21,8 +22,8 @@ namespace PocWebJob
             builder.ConfigureServices(s =>
             {
                 s.AddTransient<Functions, Functions>();
-                //s.Configure<ServiceBusSettings>(Configuration.GetSection("ServiceBusSettings"));
-                //s.AddApplicationInsightsTelemetry(Configuration);
+                s.Configure<ServiceBusSettings>(Configuration.GetSection("ServiceBusSettings"));
+                s.Configure<CommonSettings>(Configuration.GetSection("CommonSettings"));
             });
             builder.ConfigureLogging((context, b) =>
             {
@@ -54,7 +55,6 @@ namespace PocWebJob
                 .Build();
 
             services.AddSingleton(Configuration);
-            //services.AddOptions();
         }
     }
 }
